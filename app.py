@@ -260,7 +260,7 @@ with st.sidebar:
 
     elif data_source == "⬆️ Upload CSV":
         uploaded = st.file_uploader(
-            "Upload CSV (max 200MB)",
+            "Upload CSV (max 1GB)",
             type=["csv"],
         )
         if uploaded:
