@@ -1,6 +1,6 @@
 # 💊 CMS Open Payments 2018 Analysis
 
-**🚀 Live Application:** [View Streamlit Dashboard](https://shweta-tech-creator-cms-open-payments-an-p90wz6.streamlit.app/)
+**🚀 Live Application:** [View Streamlit Dashboard](https://cms-open-payments-analysis-2cznc96n9xpb4avougb8d5.streamlit.app/)
 
 ## 👥 Group Members
 - Sweta Kadam
@@ -28,4 +28,4 @@ The CMS Open Payments Program mandates healthcare companies to publicly report f
 [CMS Open Payments 2018 — Kaggle](https://www.kaggle.com/datasets/davegords/cms-open-payments-2018)
 
 ## 📸 Screenshots & Outputs
-*All interactive charts, models, and visual outputs are available directly on the [Live Dashboard](https://shweta-tech-creator-cms-open-payments-an-p90wz6.streamlit.app/).*
+*All interactive charts, models, and visual outputs are available directly on the [Live Dashboard](https://cms-open-payments-analysis-2cznc96n9xpb4avougb8d5.streamlit.app/).*
