@@ -19,6 +19,12 @@ The **CMS Open Payments Program** (Sunshine Act, 2013) mandates pharmaceutical a
 
 ---
 
+## 🚀 Live Demo
+
+**[Click here to view the live Interactive Dashboard!](https://shweta-tech-creator-cms-open-payments-an-p90wz6.streamlit.app/)**
+
+---
+
 ## 🧠 Economic & Business Concepts Applied
 
 | Concept | Application |
@@ -65,7 +71,7 @@ The **CMS Open Payments Program** (Sunshine Act, 2013) mandates pharmaceutical a
 cms-open-payments-analysis/
 │
 ├── 📓 notebooks/
-│   └── cms_open_payments_analysis.ipynb   # Full Colab notebook
+│   └── cms_open_payments_analysis.ipynb   # Full Colab notebook (run in Google Colab)
 │
 ├── 📁 data/
 │   └── .gitkeep                           # Place your dataset CSV here
@@ -107,7 +113,7 @@ cms-open-payments-analysis/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/cms-open-payments-analysis.git
+git clone https://github.com/Shweta-Tech-creator/cms-open-payments-analysis.git
 cd cms-open-payments-analysis
 ```
 
@@ -129,8 +135,9 @@ streamlit run app.py
 ```
 
 ### 5. Open Colab Notebook
-- Upload `notebooks/cms_open_payments_analysis.ipynb` to [Google Colab](https://colab.research.google.com/)
-- Follow cell-by-cell instructions
+- Go to [Google Colab](https://colab.research.google.com/)
+- Under the Github tab, search for `Shweta-Tech-creator/cms-open-payments-analysis`
+- Open the notebook `notebooks/cms_open_payments_analysis.ipynb`
 
 ---
 
