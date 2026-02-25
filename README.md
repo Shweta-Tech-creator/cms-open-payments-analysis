@@ -69,15 +69,6 @@ cms-open-payments-analysis/
 ├── 📓 notebooks/
 │   └── cms_open_payments_analysis.ipynb   # Full Colab notebook (run in Google Colab)
 │
-├── 📁 data/
-│   └── .gitkeep                           # Place your dataset CSV here
-│
-├── 📸 screenshots/
-│   ├── eda_dashboard.png
-│   ├── clustering_viz.png
-│   ├── regression_results.png
-│   └── streamlit_app.png
-│
 ├── 📁 src/
 │   └── utils.py                           # Helper functions
 │
@@ -89,19 +80,7 @@ cms-open-payments-analysis/
 
 ---
 
-## 📸 Screenshots
-
-### EDA Dashboard
-![EDA Dashboard](screenshots/eda_dashboard.png)
-
-### K-Means Clustering Visualization
-![Clustering](screenshots/clustering_viz.png)
-
-### Regression Results
-![Regression](screenshots/regression_results.png)
-
-### Streamlit App
-![Streamlit App](screenshots/streamlit_app.png)
+```
 
 ---
 
@@ -123,7 +102,7 @@ pip install -r requirements.txt
 ### 3. Download Dataset
 - Go to [Kaggle Dataset](https://www.kaggle.com/datasets/davegords/cms-open-payments-2018)
 - Download `OP_DTL_GNRL_PGYR2018_P01212022.csv`
-- Place it inside the `data/` folder
+- In the Streamlit app sidebar, click "Local File Path" and paste the path to your downloaded file.
 
 ### 4. Run the Streamlit App
 ```bash
