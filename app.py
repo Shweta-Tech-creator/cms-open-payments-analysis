@@ -233,11 +233,13 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("### 📂 Load Dataset")
-    data_source = st.radio("Data Source", ["📁 Local File Path", "⬆️ Upload CSV", "🧪 Use Sample Data"])
+    # Set Use Sample Data as the default index to ensure the deployed app works immediately
+    data_source = st.radio("Data Source", ["🧪 Use Sample Data", "📁 Local File Path", "⬆️ Upload CSV"])
 
     df_raw = None
 
     if data_source == "📁 Local File Path":
+        st.warning("⚠️ **Note:** This option only works if you are running the app locally on your own computer, not on the deployed link.")
         st.markdown("**Paste your CSV file path below:**")
         local_path = st.text_input(
             "File path",
