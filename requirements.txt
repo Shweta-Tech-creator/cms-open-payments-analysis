@@ -3,9 +3,10 @@ numpy
 matplotlib
 seaborn
 scikit-learn
-streamlit
+streamlit>=1.30.0
 plotly
 scipy
 joblib
 openpyxl
 kaggle
+altair<5
