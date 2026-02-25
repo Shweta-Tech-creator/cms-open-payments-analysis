@@ -271,7 +271,6 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("### ⚙️ Analysis Settings")
     n_clusters = st.slider("K-Means Clusters (K)", 2, 8, 4)
-    anomaly_factor = st.slider("Anomaly IQR Multiplier", 1.5, 5.0, 3.0, 0.5)
 
     st.markdown("---")
     st.markdown("### 🔗 Links")
@@ -452,11 +451,10 @@ st.markdown("---")
 # ─────────────────────────────────────────────────────────────
 # NAVIGATION TABS
 # ─────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "📊 EDA Dashboard",
     "🧩 K-Means Clustering",
     "📈 Regression Predictor",
-    "🔴 Anomaly Detection",
     "📋 Business Insights",
 ])
 
@@ -887,103 +885,9 @@ with tab3:
 
 
 # ═══════════════════════════════════════════════════════════════
-# TAB 4: ANOMALY DETECTION
+# TAB 4: BUSINESS INSIGHTS
 # ═══════════════════════════════════════════════════════════════
 with tab4:
-    st.markdown("## 🔴 Anomaly Detection — Outlier Payment Analysis")
-    st.markdown(f"Identifying statistically extreme transactions using IQR method (×{anomaly_factor}) and Z-score analysis.")
-
-    # IQR method
-    Q1 = df["payment_amount"].quantile(0.25)
-    Q3 = df["payment_amount"].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - anomaly_factor * IQR
-    upper_bound = Q3 + anomaly_factor * IQR
-
-    df_anom = df.copy()
-    df_anom["is_anomaly"] = (df_anom["payment_amount"] < lower_bound) | (df_anom["payment_amount"] > upper_bound)
-    df_anom["z_score"]    = (df_anom["payment_amount"] - df_anom["payment_amount"].mean()) / df_anom["payment_amount"].std()
-    df_anom["is_anomaly_z"] = df_anom["z_score"].abs() > 3
-
-    n_anomalies   = int(df_anom["is_anomaly"].sum())
-    pct_anomalies = n_anomalies / len(df_anom) * 100
-    total_anom_val = df_anom[df_anom["is_anomaly"]]["payment_amount"].sum()
-
-    am1, am2, am3, am4 = st.columns(4)
-    am1.metric("🚨 IQR Anomalies",    f"{n_anomalies:,}")
-    am2.metric("📊 % Anomalous",       f"{pct_anomalies:.2f}%")
-    am3.metric("💸 Anomaly Total ($)", f"${total_anom_val:,.0f}")
-    am4.metric("Z-Score Outliers",    f"{int(df_anom['is_anomaly_z'].sum()):,}")
-
-    ac1, ac2 = st.columns(2)
-
-    with ac1:
-        st.markdown("### 🔍 Payment Scatter — Normal vs Anomalous")
-        sample_a = df_anom.sample(min(5000, len(df_anom)), random_state=42)
-        fig = px.scatter(
-            sample_a, x="num_payments", y="payment_amount",
-            color="is_anomaly",
-            color_discrete_map={True: "#fc8181", False: "#667eea"},
-            labels={"is_anomaly": "Anomaly", "payment_amount": "Payment ($)", "num_payments": "# Payments"},
-            opacity=0.65,
-        )
-        fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font_color="#a0aec0", margin=dict(l=20,r=20,t=20,b=20),
-            xaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-            yaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-    with ac2:
-        st.markdown("### 📉 Z-Score Distribution")
-        fig = px.histogram(
-            df_anom[df_anom["z_score"].between(-10, 10)],
-            x="z_score", nbins=80,
-            color_discrete_sequence=["#f6ad55"],
-        )
-        fig.add_vline(x=3,  line_dash="dash", line_color="#fc8181", annotation_text="+3σ")
-        fig.add_vline(x=-3, line_dash="dash", line_color="#fc8181", annotation_text="-3σ")
-        fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-            font_color="#a0aec0", margin=dict(l=20,r=20,t=20,b=20),
-            xaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-            yaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-    # Top anomalies table
-    st.markdown("### 🏆 Top 20 Anomalous Transactions")
-    top_anomalies = (
-        df_anom[df_anom["is_anomaly"]]
-        .sort_values("payment_amount", ascending=False)
-        .head(20)[["company","specialty","state","payment_nature","payment_amount","num_payments","z_score"]]
-    )
-    top_anomalies["specialty"] = top_anomalies["specialty"].str.split("|").str[-1]
-    top_anomalies["payment_amount"] = top_anomalies["payment_amount"].map("${:,.2f}".format)
-    top_anomalies["z_score"]        = top_anomalies["z_score"].round(2)
-    st.dataframe(top_anomalies, use_container_width=True)
-
-    # Anomalies by nature
-    st.markdown("### 🏷️ Anomalous Transactions by Payment Nature")
-    nature_anomaly = df_anom[df_anom["is_anomaly"]].groupby("payment_nature")["payment_amount"].count().sort_values(ascending=False)
-    fig = px.bar(x=nature_anomaly.index, y=nature_anomaly.values,
-                 color=nature_anomaly.values, color_continuous_scale="OrRd",
-                 labels={"x": "Payment Nature", "y": "# Anomalous Transactions"})
-    fig.update_coloraxes(showscale=False)
-    fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        font_color="#a0aec0", margin=dict(l=20,r=20,t=20,b=20),
-        xaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-        yaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-
-# ═══════════════════════════════════════════════════════════════
-# TAB 5: BUSINESS INSIGHTS
-# ═══════════════════════════════════════════════════════════════
-with tab5:
     st.markdown("## 📋 Business Insights & Policy Recommendations")
 
     st.markdown("""
@@ -1042,8 +946,7 @@ with tab5:
 <div class="glass-card">
   <h4 style="color:#b794f4; margin-top:0;">🏛️ Policy & Regulatory Framework</h4>
   <ul style="color:#a0aec0; line-height:2.0;">
-    <li>Sunshine Act data enables public accountability and transparency</li>
-    <li>AI-powered anomaly detection can assist real-time CMS monitoring</li>
+    <li>The Top 10 companies drive over 60% of all financial transfers in this dataset</li>
     <li>Cross-referencing payment data with Medicare prescription databases reveals influence patterns</li>
     <li>Clustering enables <b style="color:#e2e8f0;">risk-tier based disclosure requirements</b></li>
   </ul>
@@ -1056,7 +959,6 @@ with tab5:
     recs = [
         ("🔴", "Mandatory Disclosure Threshold", "Reduce the annual disclosure exemption threshold from $10 to $5 for high-frequency payment patterns.", "HIGH"),
         ("🟡", "Specialty-Risk Scoring", "Develop a Specialty Payment Risk Index (SPRI) assigning compliance scores to specialties based on historical payment patterns.", "MEDIUM"),
-        ("🟢", "Real-Time ML Monitoring", "Deploy ML anomaly detection on CMS's live payment reporting system to flag suspicious transactions for review within 48 hours.", "HIGH"),
         ("🔵", "Cross-Database Correlation", "Mandate correlation analysis between Open Payments data and Medicare Part D prescribing data for high-payers.", "HIGH"),
         ("🟣", "Public Dashboards", "Create publicly accessible dashboards (like this one) so patients can research physician financial relationships before appointments.", "MEDIUM"),
         ("⚪", "Periodic Cluster Audits", "Annually re-cluster payment data and audit top-cluster physicians for prescribing behavior changes post-payment.", "LOW"),

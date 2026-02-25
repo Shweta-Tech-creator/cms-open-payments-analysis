@@ -13,7 +13,6 @@ The **CMS Open Payments Program** (Sunshine Act, 2013) mandates pharmaceutical a
 - 🧐 Which physician specialties receive the highest payments?
 - 🏭 Which companies dominate payments and for what purpose?
 - 📊 Can we predict payment amounts using machine learning?
-- 🔍 Are there anomalous/suspicious transactions that signal financial risk?
 - 🧩 What natural groupings (clusters) exist in payment behavior?
 - 📋 What policy recommendations can we derive from data?
 
@@ -33,7 +32,6 @@ The **CMS Open Payments Program** (Sunshine Act, 2013) mandates pharmaceutical a
 | **Market Concentration** | Few companies dominate payment volumes (Herfindahl index analysis) |
 | **Information Asymmetry** | Transparency data bridges the gap between industry and public |
 | **Moral Hazard** | Financial ties may influence prescribing behavior |
-| **Outlier Economics** | Anomaly detection identifies unusually large/suspicious transactions |
 | **Price Discovery** | Regression models reveal fair market value of physician services |
 | **Risk Analysis** | Cluster-based risk profiling of physician-company relationships |
 
@@ -45,8 +43,6 @@ The **CMS Open Payments Program** (Sunshine Act, 2013) mandates pharmaceutical a
 |---|---|
 | **K-Means Clustering (K=4)** | Segment payment relationships into behavioral groups |
 | **Linear Regression** | Predict total payment amounts |
-| **IQR-based Anomaly Detection** | Identify statistically extreme transactions |
-| **Z-Score Analysis** | Flag high-risk outlier payments |
 | **Elbow Method** | Optimal cluster count selection |
 | **Feature Engineering** | Encode categorical variables, log-transform skewed data |
 | **Exploratory Data Analysis** | Trend analysis, payment distribution, specialty breakdown |
@@ -145,7 +141,6 @@ streamlit run app.py
 
 - 💰 **Top payment nature**: Food & Beverage, Consulting Fees, Travel & Lodging
 - 🩺 **Most compensated specialties**: Orthopedic Surgery, Cardiology, Neurology
-- 🔴 **~2-3% of transactions** classified as anomalous (>$10,000 outliers)
 - 📈 **Number of payments** is the strongest predictor of total payment amount
 - 🏭 **Top 10 companies** account for ~60% of total payment volume
 
@@ -155,8 +150,7 @@ streamlit run app.py
 
 1. **Stricter thresholds** for high-value consulting payments (>$50K)
 2. **Specialty-specific disclosure rules** for high-risk fields (Orthopedics, Cardiology)
-3. **Real-time anomaly alerts** using ML for CMS regulators
-4. **Cross-referencing** payment data with prescription behavior databases
+3. **Cross-referencing** payment data with prescription behavior databases
 
 ---
 
