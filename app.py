@@ -234,31 +234,11 @@ with st.sidebar:
 
     st.markdown("### 📂 Load Dataset")
     # Set Use Sample Data as the default index to ensure the deployed app works immediately
-    data_source = st.radio("Data Source", ["🧪 Use Sample Data", "📁 Local File Path", "⬆️ Upload CSV"])
+    data_source = st.radio("Data Source", ["🧪 Use Sample Data", "⬆️ Upload CSV"])
 
     df_raw = None
 
-    if data_source == "📁 Local File Path":
-        st.warning("⚠️ **Note:** This option only works if you are running the app locally on your own computer, not on the deployed link.")
-        st.markdown("**Paste your CSV file path below:**")
-        local_path = st.text_input(
-            "File path",
-            placeholder="/Users/yourname/Downloads/CMS_Open_Payments_2018_Clean.csv",
-            help="No upload size limit — reads directly from your disk"
-        )
-        nrows = st.slider("Rows to load", 10_000, 500_000, 100_000, step=10_000)
-        if local_path:
-            if os.path.exists(local_path):
-                with st.spinner(f"Loading {nrows:,} rows from disk…"):
-                    try:
-                        df_raw = pd.read_csv(local_path, nrows=nrows, low_memory=False)
-                        st.success(f"✅ Loaded {len(df_raw):,} rows!")
-                    except Exception as e:
-                        st.error(f"❌ Error reading file: {e}")
-            else:
-                st.error("❌ File not found. Check the path and try again.")
-
-    elif data_source == "⬆️ Upload CSV":
+    if data_source == "⬆️ Upload CSV":
         uploaded = st.file_uploader(
             "Upload CSV (max 1GB)",
             type=["csv"],
